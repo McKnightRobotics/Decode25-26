@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.Time;
 public final class DriveCommandMessage {
     public long timestamp;
 
+
     public double forwardVelocity;
     public double forwardAcceleration;
     public double lateralVelocity;
