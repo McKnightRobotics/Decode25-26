@@ -29,6 +29,13 @@ public class Drive {
     }
 
     public void drive(double forward, double rotate, double strafe) {
+
+        double largest = Math.max(Math.abs(forward), Math.abs(rotate));
+        if (largest > 1.0) {
+            forward /= largest;
+            rotate /= largest;
+        }
+
         frontLeft.setPower(forward + rotate - strafe);
         frontRight.setPower(forward - rotate - strafe);
         backLeft.setPower(forward + rotate + strafe);
