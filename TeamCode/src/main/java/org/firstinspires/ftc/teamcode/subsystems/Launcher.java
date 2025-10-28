@@ -41,7 +41,65 @@ public class Launcher {
         launcher.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(
                 300, 0, 0, 10));
 
-        leftFeeder.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFeeder.setDirection(CRServo.Direction.REVERSE);
 
+        launchState = LaunchState.IDLE;
+        stopFeeder();
+        stopLauncher();
+
+        // TODO: add launcher.updateState(); to the Auto when we create it.
+    }
+
+
+    public void stopFeeder() {
+        leftFeeder.setPower(STOP_SPEED);
+        rightFeeder.setPower(STOP_SPEED);
+    }
+
+    public void updateState() {
+        switch (launchState) {
+            case IDLE:
+                break;
+            case SPIN_UP:
+                launcher.setVelocity(LAUNCHER_TARGET_VELOCITY);
+                if (launcher.getVelocity() >= LAUNCHER_MIN_VELOCITY) {
+                    launchState = LaunchState.LAUNCH;
+                }
+                break;
+            case LAUNCH:
+                leftFeeder.setPower(FULL_SPEED);
+                rightFeeder.setPower(FULL_SPEED);
+                feederTimer.reset();
+                launchState = LaunchState.LAUNCHING;
+                break;
+            case LAUNCHING:
+                if (feederTimer.seconds() > FEED_TIME_SECONDS) {
+                    stopFeeder();
+                    launchState = LaunchState.IDLE;
+                }
+                break;
+        }
+    }
+
+
+    public void startLauncher() {
+        if (launchState == LaunchState.IDLE) {
+            launchState = LaunchState.SPIN_UP;
+        }
+    }
+
+
+    public void stopLauncher() {
+        stopFeeder();
+        launcher.setVelocity(STOP_SPEED);
+        launchState = LaunchState.IDLE;
+    }
+
+    public String getState() {
+        return launchState.toString();
+    }
+
+    public double getVelocity() {
+        return launcher.getVelocity();
     }
 }
