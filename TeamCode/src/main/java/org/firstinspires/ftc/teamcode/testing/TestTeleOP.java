@@ -19,6 +19,7 @@ public class TestTeleOP extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         drive = new Drive(hardwareMap);
         launcher = new Launcher();
+        launcher.init(hardwareMap);
         controls = new GamepadEvents(gamepad1);
         double forward;
         double strafe;
