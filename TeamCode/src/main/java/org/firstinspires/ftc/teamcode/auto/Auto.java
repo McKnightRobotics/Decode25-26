@@ -21,3 +21,4 @@ public class Auto extends LinearOpMode {
         while (opModeIsActive()) {}
     }
 }
+
