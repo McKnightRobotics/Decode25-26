@@ -37,7 +37,6 @@ public class TestTeleOP extends LinearOpMode {
                 launcher.startLauncher();// comment
             }
 
-
             launcher.updateState();
             controls.update();
         }
