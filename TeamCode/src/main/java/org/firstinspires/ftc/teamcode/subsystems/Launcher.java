@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.R;
 
 public class Launcher {
-    //TODO: I think the Issue with the seconds of the Feed_Time
+
     private final double FEED_TIME_SECONDS = 0.20;
     private final double STOP_SPEED = 0.0;
     private final double FULL_SPEED = 0.65;
@@ -74,6 +74,7 @@ public class Launcher {
             case LAUNCH:
                 leftFeeder.setPower(FULL_SPEED);
                 rightFeeder.setPower(FULL_SPEED);
+                //TODO: This timer is outside the if statement, so the seconds alway stay at zero
                 feederTimer.reset();
                 if (feederTimer.seconds() >= 5) {
                     launchState = LaunchState.LAUNCHING;

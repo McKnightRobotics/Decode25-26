@@ -17,8 +17,8 @@ public class Auto extends LinearOpMode {
 
         //Recommendations for the Auto
         //(1) Figure out if the feeders are spinning in the right direction
-        //(2) Check your speed limit for the feeder code, I think it is too small(0.20 seconds curr)
-        //(3) See if you can get a 3 ball auto working consistentally
+        //(2) Check your resetTimer logic in updateStates
+        //(3) See if you can get a 3 ball auto working consistently
         //(4) Add a Drive Capability to the robot, it can be time-based as we will make changes
         // to the robot design after League meet 2
 
