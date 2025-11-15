@@ -8,10 +8,13 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.R;
+
 public class Launcher {
+    //TODO: I think the Issue with the seconds of the Feed_Time
     private final double FEED_TIME_SECONDS = 0.20;
     private final double STOP_SPEED = 0.0;
-    private final double FULL_SPEED = 1.0;
+    private final double FULL_SPEED = 0.65;
     private final double LAUNCHER_TARGET_VELOCITY = 1125;
     private final double LAUNCHER_MIN_VELOCITY = 1075;
 
@@ -37,17 +40,20 @@ public class Launcher {
 
         launcher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         launcher.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        launcher.setDirection(DcMotorSimple.Direction.REVERSE);
 
         launcher.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(
                 300, 0, 0, 10));
 
-        leftFeeder.setDirection(CRServo.Direction.REVERSE);
+        //TODO: Priority for Work Day: Check which feeder is going is the wrong direction
+        leftFeeder.setDirection(CRServo.Direction.FORWARD);
+        rightFeeder.setDirection(CRServo.Direction.REVERSE);
 
         launchState = LaunchState.IDLE;
         stopFeeder();
         stopLauncher();
 
-        // TODO: add launcher.updateState(); to the Auto when we create it.
+
     }
 
 
@@ -70,18 +76,23 @@ public class Launcher {
                 leftFeeder.setPower(FULL_SPEED);
                 rightFeeder.setPower(FULL_SPEED);
                 feederTimer.reset();
-                launchState = LaunchState.LAUNCHING;
+                if (feederTimer.seconds() >= 5) {
+                    launchState = LaunchState.LAUNCHING;
+                }
+
                 break;
             case LAUNCHING:
                 if (feederTimer.seconds() > FEED_TIME_SECONDS) {
                     stopFeeder();
+                    stopLauncher();
                     launchState = LaunchState.IDLE;
                 }
                 break;
         }
     }
 
-
+    //Notice how this method just changes the state of the enum
+    //You can create a new method to power the launcher motor directly
     public void startLauncher() {
         if (launchState == LaunchState.IDLE) {
             launchState = LaunchState.SPIN_UP;
@@ -101,5 +112,10 @@ public class Launcher {
 
     public double getVelocity() {
         return launcher.getVelocity();
+    }
+
+    public void startFeeder(double power) {
+        rightFeeder.setPower(power);
+        leftFeeder.setPower(power);
     }
 }
