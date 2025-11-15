@@ -22,7 +22,6 @@ public class Auto extends LinearOpMode {
         //(4) Add a Drive Capability to the robot, it can be time-based as we will make changes
         // to the robot design after League meet 2
 
-
         waitForStart();
         launcher.startLauncher();
         while (opModeIsActive()) {
