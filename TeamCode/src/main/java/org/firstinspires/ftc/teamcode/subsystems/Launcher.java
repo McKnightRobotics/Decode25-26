@@ -19,7 +19,6 @@ public class Launcher {
     private final double LAUNCHER_MIN_VELOCITY = 1075;
 
     private DcMotorEx launcher;
-
     private CRServo leftFeeder, rightFeeder;
 
     ElapsedTime feederTimer = new ElapsedTime();
