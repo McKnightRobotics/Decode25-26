@@ -16,7 +16,7 @@ public class Launcher {
     private final double STOP_SPEED = 0.0;
     private final double FULL_SPEED = 0.65;
     private final double LAUNCHER_TARGET_VELOCITY = 1125;
-    private final double LAUNCHER_MIN_VELOCITY = 1075;
+    private final double LAUNCHER_MIN_VELOCITY = 75;
 
     private DcMotorEx launcher;
     private CRServo leftFeeder, rightFeeder;
@@ -75,9 +75,10 @@ public class Launcher {
                 leftFeeder.setPower(FULL_SPEED);
                 rightFeeder.setPower(FULL_SPEED);
                 //TODO: This timer is outside the if statement, so the seconds alway stay at zero
-                feederTimer.reset();
+
                 if (feederTimer.seconds() >= 5) {
-                    launchState = LaunchState.LAUNCHING;
+                    feederTimer.reset();
+                   // launchState = LaunchState.LAUNCHING;
                 }
 
                 break;
@@ -90,6 +91,13 @@ public class Launcher {
                 break;
         }
     }
+
+
+    public void startLauncherMotor(double power) {
+        launcher.setPower(power);
+    }
+
+
 
     //Notice how this method just changes the state of the enum
     //You can create a new method to power the launcher motor directly
@@ -112,6 +120,9 @@ public class Launcher {
 
     public double getVelocity() {
         return launcher.getVelocity();
+    }
+    public double getPower() {
+        return  launcher.getPower();
     }
 
     public void startFeeder(double power) {

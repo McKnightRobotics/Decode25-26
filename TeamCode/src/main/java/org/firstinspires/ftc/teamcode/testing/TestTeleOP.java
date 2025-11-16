@@ -34,10 +34,11 @@ public class TestTeleOP extends LinearOpMode {
 
             // launcher button
             if (gamepad1.a) {
-                launcher.startLauncher();// comment
+                launcher.startLauncherMotor(1);
+                launcher.startFeeder(1);
             }
 
-            launcher.updateState();
+            //launcher.updateState();
             controls.update();
         }
     }
