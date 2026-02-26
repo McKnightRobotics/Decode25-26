@@ -121,10 +121,11 @@ public class Launcher {
     public double getVelocity() {
         return launcher.getVelocity();
     }
+    //This would not work
     public double getPower() {
         return  launcher.getPower();
     }
-
+    //This would not work
     public void startFeeder(double power) {
         rightFeeder.setPower(power);
         leftFeeder.setPower(power);

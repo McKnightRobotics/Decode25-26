@@ -17,8 +17,10 @@ public class Drive {
         frontRight =HW.get(DcMotorEx.class,"frontRight");
         backRight = HW.get(DcMotorEx.class,"backRight");
 
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        //backLeft and backRight
+        backRight.setDirection(DcMotorEx.Direction.REVERSE);
+        backLeft.setDirection(DcMotorEx.Direction.REVERSE);
+        frontLeft.setDirection(DcMotorEx.Direction.REVERSE);
 
 
         frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -28,17 +30,12 @@ public class Drive {
 
     }
 
-    public void drive(double forward, double rotate, double strafe) {
+    public void drive(double forward, double rotate, double strafe)
+    {
 
-        double largest = Math.max(Math.abs(forward), Math.abs(rotate));
-        if (largest > 1.0) {
-            forward /= largest;
-            rotate /= largest;
-        }
-
-        frontLeft.setPower(forward + rotate - strafe);
-        frontRight.setPower(forward - rotate - strafe);
-        backLeft.setPower(forward + rotate + strafe);
-        backRight.setPower(forward - rotate + strafe);
+        frontLeft.setPower(forward + strafe + rotate);
+        backLeft.setPower(forward - strafe + rotate);
+        frontRight.setPower(forward - strafe - rotate);
+        backRight.setPower(forward + strafe - rotate);
     }
 }// I love spaces
