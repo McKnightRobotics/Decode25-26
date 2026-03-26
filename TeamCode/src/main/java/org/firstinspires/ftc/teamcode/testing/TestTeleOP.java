@@ -19,6 +19,7 @@ public class TestTeleOP extends LinearOpMode {
    GamepadEvents controls;
    LED led;
    Intake intake;
+   boolean islauncheron = false;
     @Override
     public void runOpMode() throws InterruptedException {
         drive = new Drive(hardwareMap);
@@ -40,22 +41,37 @@ public class TestTeleOP extends LinearOpMode {
 
             // launcher button
             if (controls.a.onPress()) {
+                islauncheron = !islauncheron;
+
+            }
+            if (islauncheron){
                 launcher.startLauncherMotor(1);
                 launcher.startFeeder(1);
             }
+
             if (controls.b.onPress()) {
                 intake.toggleIntake();
             }
+
+             if (islauncheron){
+                led.setLEDcolor(0.5); //green
+            }else if ( intake.getIsIntakeOn()) {
+                 led.setLEDcolor(0.25); //red
+             }else{
+                 led.setLEDcolor(0.55); //cyan
+             }
+
             if (controls.y.onPress()) {
                 intake.changePower();
             }
-            led.setLEDcolor(controls.left_trigger.getTriggerValue());
+
+//            led.setLEDcolor(controls.left_trigger.getTriggerValue());
 
             //launcher.updateState();
             controls.update();
             telemetry.addData("isIntakeOn set to", intake.getIsIntakeOn());
             telemetry.addData("Power is now set to: ", intake.getPower());
-            telemetry.addData("LED should be: ", controls.left_trigger.getTriggerValue());
+            //telemetry.addData("LED should be: ", controls.left_trigger.getTriggerValue());
             telemetry.update();
         }
        // fiji water
